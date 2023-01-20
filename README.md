@@ -47,3 +47,9 @@ Uses the trained model to display a web app. When a user inputs a message the we
 9. classifier.pkl - output pickle file from train_classifier.py
 10. run.py - see "Python Scripts" above
 ## Instructions
+1. Run the ETL pipeline to clean data and store in database:
+        'python process_data.py messages.csv categories.csv DisasterResponse.db'
+2. Run the ML pipeline to train classifier and save the model:
+        'python train_classifier.py DisasterResponse.db classifier.pkl'
+3. Run your web app:
+        'python run.py'
