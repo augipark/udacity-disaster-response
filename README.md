@@ -35,6 +35,15 @@ Creates and trains a classifier using the data output from the ETL script.
 ### 3. The web app: _run.py_
 Uses the trained model to display a web app. When a user inputs a message the web app, a classification result is output.
 
-## File Structure
-
+## File Descriptions 
+1. README.md - read me file
+2. messages.csv - input dataset #1
+3. categories.csv - input dataset #2
+4. ETL Pipeline Preparation.ipynb - rough work to create process_data.py
+5. process_data.py - see "Python Scripts" above
+6. DisasterResponse.db - output from process_data.py
+7. ML Pipeline Preparation.ipynb - rough work to create train_classifier.py
+8. train_classifier.py - see "Python Scripts" above
+9. classifier.pkl - output pickle file from train_classifier.py
+10. run.py - see "Python Scripts" above
 ## Instructions
