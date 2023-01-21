@@ -29,6 +29,8 @@ def load_data(messages_filepath, categories_filepath):
 
         # convert column from string to numeric
         categories[column] = pd.to_numeric(categories[column])
+        
+    categories.loc[categories["related"] == 2, "related"] = 1
     
     # drop the original categories column from `df`
     df = df.drop(columns=['categories'])
