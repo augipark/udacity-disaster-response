@@ -21,6 +21,18 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.metrics import classification_report
 
 def load_data(database_filepath):
+    '''
+    load_data
+    loads data from SQLite database_filepath 
+    
+    Input:
+    database_filepath   filepath to the SQLite database
+   
+    Output:
+    X               a df which contains the message column of the loaded dataframe
+    y               a df which contains the remaining columns of the loaded dataframe   
+    column_names    a list which contains the column names of the y dataframe
+    '''
     # load data from database
     engine = create_engine('sqlite:///'+database_filepath)
     df = pd.read_sql_table('disasterdata', engine)
@@ -34,6 +46,16 @@ def load_data(database_filepath):
 regex_url = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
 def tokenize(text):
+    '''
+    tokenize
+    processes text data: normalize, tokenize, stop word removal, stem, and lemmatize 
+    
+    Input:
+    text   raw text data
+   
+    Output:
+    clean_words      tokenized text data
+    '''
     url_detect = re.findall(regex_url, text)
     for url in url_detect:
         text = text.replace(url, "place_holder_url")
@@ -50,6 +72,14 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    build_model
+    builds a machine learning pipeline that takes the message column as input and outputs classification results on categories. 
+    also uses grid search to find better parameters
+   
+    Output:
+    cv      classification model
+    '''
     pipeline = Pipeline([
     ('vectorizer', CountVectorizer(tokenizer=tokenize)),
     ('tefreq_indocfreq', TfidfTransformer()),
@@ -67,6 +97,16 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    '''
+    evaluate_model
+    reports the recall, precision, and f1 score for each output category
+    
+    Input:
+    model           classification model
+    X_test          test messages dataframe
+    Y_test          test target dataframe
+    category_names  a list which contains the column names of the y dataframe
+    '''
     y_pred_best = model.predict(X_test)
     
     for i in range(len(category_names)):
@@ -75,6 +115,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    '''
+    save_model
+    export the model as a pickle file
+    
+    Input:
+    model           classification model
+    model_filepath  pickle file path
+    '''
     with open(model_filepath, 'wb') as f:
         pickle.dump(model, f)
 
