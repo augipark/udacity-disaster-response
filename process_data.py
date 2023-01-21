@@ -3,6 +3,17 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+    '''
+    load_data
+    loads data from 2 csv files and merges them into a single dataframe.
+    
+    Input:
+    messages_filepath   filepath to the messages csv file
+    categories_filepath filepath to the categories csv file
+    
+    Output:
+    df_new      merged dataframe of the messages and categories files
+    '''
     # load messages dataset
     messages = pd.read_csv(messages_filepath)
     
@@ -42,6 +53,16 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    '''
+    clean_data
+    drops duplicates in the dataframe
+    
+    Input:
+    df           the merged dataframe output by the load_data function
+    
+    Output:
+    df_new2      merged dataframe without duplicates
+    '''
     # drop duplicates
     df_new2 = df.drop_duplicates()
     
@@ -49,6 +70,17 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    '''
+    save_data
+    save the merged and cleaned dataframe into an sqlite database
+    
+    Input:
+    df           the merged and cleaned dataframe output by the clean_data function
+    database_filename   the filename you want to give the sqlite database
+    
+    Output:
+    nothing is returned, but the result is we write records store in a dataframe to a sqlite database
+    '''
     engine = create_engine('sqlite:///'+database_filename)
     df.to_sql('disasterdata', engine, if_exists='replace', index=False)
 
